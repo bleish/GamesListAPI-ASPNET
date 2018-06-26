@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using GamesListAPI.Configuration;
+using GamesListAPI.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,6 +31,10 @@ namespace GamesListAPI
             services.AddOptions(); // TODO: Check if needed
 
             services.Configure<MongoConnectionConfiguration>(Configuration.GetSection("MongoConnection"));
+
+            services.AddAutoMapper();
+
+            services.AddSingleton<IGamesRepository, GamesRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

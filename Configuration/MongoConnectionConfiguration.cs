@@ -2,7 +2,7 @@ namespace GamesListAPI.Configuration
 {
     public class MongoConnectionConfiguration
     {
-        public string ConnectionString;
-        public string Database;
+        public string ConnectionString { get; set; }
+        public string Database { get; set; }
     }
 }
