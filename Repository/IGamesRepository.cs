@@ -9,6 +9,7 @@ namespace GamesListAPI.Repository
     {
         Task<IEnumerable<Game>> GetMany();
         Task<Game> GetOne(ObjectId id);
+        Task Add(Game game);
         Task<bool> Remove(ObjectId id);
         Task<bool> Update(Game game);
     }

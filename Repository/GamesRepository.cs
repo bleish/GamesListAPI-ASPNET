@@ -20,24 +20,36 @@ namespace GamesListAPI.Repository
             Collection = database.GetCollection<Game>("games");
         }
 
-        public Task<IEnumerable<Game>> GetMany()
+        public async Task<IEnumerable<Game>> GetMany()
         {
-            throw new System.NotImplementedException();
+            return await Collection.Find(Builders<Game>.Filter.Empty).ToListAsync();
         }
 
-        public Task<Game> GetOne(ObjectId id)
+        public async Task<Game> GetOne(ObjectId id)
         {
-            throw new System.NotImplementedException();
+            return await Collection.Find(g => g.Id == id).FirstOrDefaultAsync();
         }
 
-        public Task<bool> Remove(ObjectId id)
+        public async Task Add(Game game)
         {
-            throw new System.NotImplementedException();
+            await Collection.InsertOneAsync(game);
         }
 
-        public Task<bool> Update(Game game)
+        public async Task<bool> Remove(ObjectId id)
         {
-            throw new System.NotImplementedException();
+            var actionResult = await Collection.DeleteOneAsync(g => g.Id == id);
+            return actionResult.IsAcknowledged && actionResult.DeletedCount > 0;
+        }
+
+        public async Task<bool> Update(Game game)
+        {
+            var update = Builders<Game>.Update
+                .Set(g => g.Title, game.Title)
+                .Set(g => g.System, game.System)
+                .Set(g => g.ReleaseDate, game.ReleaseDate);
+
+            var actionResult = await Collection.UpdateOneAsync(g => g.Id == game.Id, update);
+            return actionResult.IsAcknowledged && actionResult.ModifiedCount > 0;
         }
     }
 }
