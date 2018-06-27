@@ -8,9 +8,9 @@ namespace GamesListAPI.Repository
     public interface IGamesRepository
     {
         Task<IEnumerable<Game>> GetMany();
-        Task<Game> GetOne(ObjectId id);
-        Task Add(Game game);
-        Task<bool> Remove(ObjectId id);
+        Task<Game> GetOne(string id);
+        Task<Game> Add(Game game);
+        Task<bool> Remove(string id);
         Task<bool> Update(Game game);
     }
 }

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using GamesListAPI.Models;
 using GamesListAPI.Repository;
+using GamesListAPI_ASPNET.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 
@@ -13,9 +14,12 @@ namespace GamesListAPI.Controllers
     public class GamesController : ControllerBase
     {
         private readonly IGamesRepository _gamesRepository;
-        public GamesController(IGamesRepository gamesRepository)
+        private readonly IMapper _mapper;
+
+        public GamesController(IGamesRepository gamesRepository, IMapper mapper)
         {
             _gamesRepository = gamesRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -26,7 +30,7 @@ namespace GamesListAPI.Controllers
         }
 
         [HttpGet("{id}", Name = "GetGame")]
-        public async Task<ActionResult> Get(ObjectId id)
+        public async Task<ActionResult> Get(string id)
         {
             var game = await _gamesRepository.GetOne(id);
             if (game == null)
@@ -37,26 +41,26 @@ namespace GamesListAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(Game game)
+        public async Task<ActionResult> Create(GameDTO game)
         {
-            await _gamesRepository.Add(game);
-            return CreatedAtRoute("GetGame", new { id = game.Id }, null);
+            var newGame = await _gamesRepository.Add(_mapper.Map<Game>(game));
+            return CreatedAtRoute("GetGame", new { id = newGame.Id }, null);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(ObjectId id, Game game)
+        public async Task<ActionResult> Update(string id, GameDTO gameDTO)
         {
-            var oldGame = await _gamesRepository.GetOne(id);
-            if (oldGame == null)
+            var game = await _gamesRepository.GetOne(id);
+            if (game == null)
             {
                 return NotFound();
             }
-            await _gamesRepository.Update(Mapper.Map(game, oldGame));
+            await _gamesRepository.Update(_mapper.Map(gameDTO, game));
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(ObjectId id)
+        public async Task<ActionResult> Delete(string id)
         {
             var oldGame = await _gamesRepository.GetOne(id);
             if (oldGame == null)

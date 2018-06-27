@@ -32,11 +32,11 @@ namespace GamesListAPI
 
             services.Configure<MongoConnectionConfiguration>(Configuration.GetSection("MongoConnection"));
 
-            services.AddAutoMapper();
-
             services.AddSingleton<IGamesRepository, GamesRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddAutoMapper();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -25,17 +25,18 @@ namespace GamesListAPI.Repository
             return await Collection.Find(Builders<Game>.Filter.Empty).ToListAsync();
         }
 
-        public async Task<Game> GetOne(ObjectId id)
+        public async Task<Game> GetOne(string id)
         {
             return await Collection.Find(g => g.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task Add(Game game)
+        public async Task<Game> Add(Game game)
         {
             await Collection.InsertOneAsync(game);
+            return game;
         }
 
-        public async Task<bool> Remove(ObjectId id)
+        public async Task<bool> Remove(string id)
         {
             var actionResult = await Collection.DeleteOneAsync(g => g.Id == id);
             return actionResult.IsAcknowledged && actionResult.DeletedCount > 0;
