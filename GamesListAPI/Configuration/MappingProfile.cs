@@ -1,8 +1,8 @@
 using AutoMapper;
 using GamesListAPI.Models;
-using GamesListAPI_ASPNET.DTOs;
+using GamesListAPI.DTOs;
 
-namespace GamesListAPI_ASPNET.Configuration
+namespace GamesListAPI.Configuration
 {
     public class MappingProfile : Profile
     {

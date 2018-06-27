@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace GamesListAPI_ASPNET.DTOs
+namespace GamesListAPI.DTOs
 {
     public class GameDTO
     {

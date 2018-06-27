@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using GamesListAPI.Models;
 using GamesListAPI.Repository;
-using GamesListAPI_ASPNET.DTOs;
+using GamesListAPI.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 
